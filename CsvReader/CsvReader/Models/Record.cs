@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CsvReader.Models
+﻿namespace CsvReader.Models
 {
     public class Record
     {

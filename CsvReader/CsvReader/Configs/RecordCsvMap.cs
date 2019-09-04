@@ -1,8 +1,5 @@
 ﻿using CsvHelper.Configuration;
 using CsvReader.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CsvReader.Configs
 {
