@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RoundRobinCollection
 {
@@ -12,6 +11,11 @@ namespace RoundRobinCollection
 
         public RoundRobinCollection(params T[] sequence)
         {
+            if(sequence == null)
+            {
+                throw new ArgumentNullException(nameof(sequence));
+            }
+
             _queue.Clear();
             foreach (var item in sequence)
             {
