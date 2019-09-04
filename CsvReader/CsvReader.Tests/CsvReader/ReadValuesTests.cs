@@ -8,13 +8,14 @@ namespace CsvReader.Tests.CsvReader
 {
     public class ReadValuesTests
     {
-        const string CsvPath = @"D:\git tasks\Unit-testing\CsvReader\CsvReader\bin\Debug\netcoreapp2.1\File.csv";
+        const string DefaultCsvPath = "DefaultCsv.csv";
+        const string CsvForCustomParametersPath = "CsvForCustomParameters.csv";
 
         [Fact]
         public void ReadValuesResultNotNull()
         {
             // Arrange
-            var sr = new StreamReader(CsvPath);
+            var sr = new StreamReader(DefaultCsvPath);
             var csv = new CsvHelper.CsvReader(sr);
 
             var records = new CsvReader<Models.Record>(sr, csv);
@@ -33,7 +34,7 @@ namespace CsvReader.Tests.CsvReader
         public void CheckTypeOfReadValuesResult()
         {
             // Arrange
-            var sr = new StreamReader(CsvPath);
+            var sr = new StreamReader(DefaultCsvPath);
             var csv = new CsvHelper.CsvReader(sr);
 
             var records = new CsvReader<Models.Record>(sr, csv);
@@ -52,7 +53,7 @@ namespace CsvReader.Tests.CsvReader
         public void CallReadValuesMoreTimesThanRecordsCount()
         {
             // Arrange
-            var sr = new StreamReader(CsvPath);
+            var sr = new StreamReader(DefaultCsvPath);
             var csv = new CsvHelper.CsvReader(sr);
 
             var records = new CsvReader<Models.Record>(sr, csv);
@@ -68,6 +69,25 @@ namespace CsvReader.Tests.CsvReader
 
             // Assert
             Assert.Equal(lastRecord, afterLastRecord);
+        }
+
+        [Fact]
+        public void UseCsvReaderWithCustomOptionalParameters()
+        {
+            // Arrange
+            var sr = new StreamReader(CsvForCustomParametersPath);
+            var csv = new CsvHelper.CsvReader(sr);
+
+            var records = new CsvReader<Models.Record>(sr, csv, delimiter: ";", hasHeaders: false);
+
+            // Act
+            var record = records.ReadValues();
+
+            // Assert
+            foreach (var value in record)
+            {
+                Assert.IsType<string>(value);
+            }
         }
     }
 }
