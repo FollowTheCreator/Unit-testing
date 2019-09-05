@@ -9,42 +9,36 @@ namespace RoundRobinCollection.Tests.RoundRobinCollection
         public void EnumerateMoreTimesThanSequenceLength()
         {
             // Arrange
-            var collection = new RoundRobinCollection<int>(1, 2, 3, 4);
+            var inputData = new int[] { 1, 2, 3, 4 };
+            var collection = new RoundRobinCollection<int>(inputData);
             var instance = collection.GetEnumerator();
 
             // Act
-            for(int i = 0; i < 4; i++)
+            for(int i = 0; i < inputData.Length; i++)
             {
                 instance.MoveNext();
             }
 
             // Assert
-            Assert.Equal(1, instance.Current);
+            Assert.Equal(inputData[0], instance.Current);
         }
 
         [Fact]
         public void EnumerateByMultipleGetEnumeratorInstances()
         {
             // Arrange
-            var collection = new RoundRobinCollection<int>(1, 2, 3, 4);
+            var inputData = new int[] { 1, 2, 3, 4 };
+            var collection = new RoundRobinCollection<int>(inputData);
             var firstInstance = collection.GetEnumerator();
             var secondInstance = collection.GetEnumerator();
 
-            // Act
-            var firstItem = firstInstance.Current;
-            firstInstance.MoveNext();
-            var secondItem = secondInstance.Current;
-            secondInstance.MoveNext();
-            var thirdItem = firstInstance.Current;
-            firstInstance.MoveNext();
-            var fourthItem = firstInstance.Current;
-            firstInstance.MoveNext();
-
-            // Assert
-            Assert.Equal(1, firstItem);
-            Assert.Equal(2, secondItem);
-            Assert.Equal(3, thirdItem);
-            Assert.Equal(4, fourthItem);
+            // Act and Assert
+            for(int i = 0; i < inputData.Length; i++)
+            {
+                Assert.Equal(inputData[i], firstInstance.Current);
+                Assert.Equal(inputData[i], secondInstance.Current);
+                var a = i / 3 == 0 ? secondInstance.MoveNext() : firstInstance.MoveNext();
+            }
         }
 
         [Fact]
